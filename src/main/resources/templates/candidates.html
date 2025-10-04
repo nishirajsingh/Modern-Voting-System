@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidate Information - Modern Voting System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <small class="text-dark fw-bold">भारत सरकार | Government of India</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo Section -->
+    <div class="gov-logo-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-1">
+                    <div class="emblem"></div>
+                </div>
+                <div class="col-md-11">
+                    <h1 class="site-title">Modern Voting System</h1>
+                    <p class="site-subtitle">Candidate Information Portal | Election Commission of India</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg main-nav">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register"><i class="fas fa-user-plus me-2"></i>Voter Registration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/candidates"><i class="fas fa-users me-2"></i>Candidate Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/vote"><i class="fas fa-vote-yea me-2"></i>Vote Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/results"><i class="fas fa-chart-bar me-2"></i>Results</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about"><i class="fas fa-user me-2"></i>About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-gov">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Candidate Information</li>
+            </ol>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-12">
+                <div class="gov-card">
+                    <div class="card-header-gov">
+                        <h2 class="mb-0"><i class="fas fa-users me-2"></i>Lok Sabha Election 2025 - Candidates</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Official Candidate List:</strong> All candidates have been verified by the Election Commission of India.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Candidates Table -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="gov-card">
+                    <div class="card-header-gov">
+                        <h4 class="mb-0"><i class="fas fa-list me-2"></i>Registered Candidates</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-gov mb-0">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">S.No.</th>
+                                        <th width="5%">Symbol</th>
+                                        <th width="30%">Candidate Name</th>
+                                        <th width="35%">Political Party</th>
+                                        <th width="20%">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="candidate, iterStat : ${candidates}">
+                                        <td>
+                                            <div class="candidate-number" th:text="${iterStat.index}"></div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="party-symbol" th:switch="${candidate.party}">
+                                                <span th:case="'🪷 BJP'">🪷</span>
+                                                <span th:case="'✋ INC'">✋</span>
+                                                <span th:case="'🌱 TMC'">🌱</span>
+                                                <span th:case="'🧹 AAP'">🧹</span>
+                                                <span th:case="'🚲 SP'">🚲</span>
+                                                <span th:case="'🐘 BSP'">🐘</span>
+                                                <span th:case="*">🏛️</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <strong th:text="${candidate.name}"></strong>
+                                        </td>
+                                        <td th:text="${candidate.party}"></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-gov-secondary me-2" 
+                                                    onclick="showCandidateDetails(this)" 
+                                                    th:data-name="${candidate.name}"
+                                                    th:data-party="${candidate.party}">
+                                                <i class="fas fa-info-circle me-1"></i>Details
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics -->
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number" th:text="${candidates.size()}">6</div>
+                    <div class="stat-label">Total Candidates</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Political Parties</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">2025</div>
+                    <div class="stat-label">Election Year</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Verified</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Party Information -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="gov-card">
+                    <div class="card-header-gov">
+                        <h4 class="mb-0"><i class="fas fa-flag me-2"></i>Political Parties Overview</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="gov-card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="party-symbol mb-3">🪷</div>
+                                        <h5>Bharatiya Janata Party (BJP)</h5>
+                                        <p class="text-muted">National party focused on development and governance reforms.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="gov-card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="party-symbol mb-3">✋</div>
+                                        <h5>Indian National Congress (INC)</h5>
+                                        <p class="text-muted">Historic party emphasizing social justice and inclusive growth.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="gov-card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="party-symbol mb-3">🌱</div>
+                                        <h5>All India Trinamool Congress (TMC)</h5>
+                                        <p class="text-muted">Regional party with focus on state development and welfare.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="gov-card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="party-symbol mb-3">🧹</div>
+                                        <h5>Aam Aadmi Party (AAP)</h5>
+                                        <p class="text-muted">Anti-corruption party focusing on transparent governance.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="gov-card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="party-symbol mb-3">🚲</div>
+                                        <h5>Samajwadi Party (SP)</h5>
+                                        <p class="text-muted">Socialist party advocating for social equality and development.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="gov-card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="party-symbol mb-3">🐘</div>
+                                        <h5>Bahujan Samaj Party (BSP)</h5>
+                                        <p class="text-muted">Party representing marginalized communities and social justice.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="gov-card">
+                    <div class="card-body text-center">
+                        <h4 class="text-primary mb-3">Ready to Vote?</h4>
+                        <p class="lead mb-4">Review the candidates and cast your vote to participate in the democratic process.</p>
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            <a href="/vote" class="btn btn-gov-success btn-lg">
+                                <i class="fas fa-vote-yea me-2"></i>Cast Your Vote
+                            </a>
+                            <a href="/results" class="btn btn-gov-secondary btn-lg">
+                                <i class="fas fa-chart-bar me-2"></i>View Results
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Candidate Details Modal -->
+    <div class="modal fade" id="candidateModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-user me-2"></i>Candidate Information</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 id="modalCandidateName"></h4>
+                            <p class="text-muted" id="modalPartyName"></p>
+                            <hr>
+                            <h6>Campaign Focus:</h6>
+                            <p>Economic development, social welfare, and transparent governance for the betterment of all citizens.</p>
+                            <h6>Key Promises:</h6>
+                            <ul>
+                                <li>Infrastructure development</li>
+                                <li>Employment generation</li>
+                                <li>Healthcare improvements</li>
+                                <li>Education reforms</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div class="bg-light p-4 rounded">
+                                <div class="party-symbol mb-3" id="modalPartySymbol">🏛️</div>
+                                <div class="badge bg-success">Verified Candidate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-gov-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="/vote" class="btn btn-gov-primary">Vote for this Candidate</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gov-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Candidate Information</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#profiles">Candidate Profiles</a></li>
+                            <li><a href="#manifestos">Party Manifestos</a></li>
+                            <li><a href="#comparison">Compare Candidates</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Election Process</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#schedule">Election Schedule</a></li>
+                            <li><a href="#guidelines">Voting Guidelines</a></li>
+                            <li><a href="#rules">Election Rules</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Contact Information</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-phone me-2"></i>Helpline: 1950</li>
+                            <li><i class="fas fa-envelope me-2"></i>info@eci.gov.in</li>
+                            <li><i class="fas fa-globe me-2"></i>www.eci.gov.in</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="mb-0 text-center">&copy; 2025 Election Commission of India. All rights reserved. | Developed by <a href="/about" class="text-decoration-none" style="color: var(--saffron);">Nishiraj Singh Panwar</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showCandidateDetails(button) {
+            const name = button.getAttribute('data-name');
+            const party = button.getAttribute('data-party');
+            
+            document.getElementById('modalCandidateName').textContent = name;
+            document.getElementById('modalPartyName').textContent = party;
+            
+            // Set party symbol
+            const symbolMap = {
+                '🪷 BJP': '🪷',
+                '✋ INC': '✋',
+                '🌱 TMC': '🌱',
+                '🧹 AAP': '🧹',
+                '🚲 SP': '🚲',
+                '🐘 BSP': '🐘'
+            };
+            document.getElementById('modalPartySymbol').textContent = symbolMap[party] || '🏛️';
+            
+            new bootstrap.Modal(document.getElementById('candidateModal')).show();
+        }
+    </script>
+</body>
+</html>

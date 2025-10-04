@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election Results - Modern Voting System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <small class="text-dark fw-bold">भारत सरकार | Government of India</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo Section -->
+    <div class="gov-logo-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-1">
+                    <div class="emblem"></div>
+                </div>
+                <div class="col-md-8">
+                    <h1 class="site-title">Modern Voting System</h1>
+                    <p class="site-subtitle">Election Results Portal | Election Commission of India</p>
+                </div>
+                <div class="col-md-3 text-end">
+                    <div class="badge bg-danger fs-6">
+                        <i class="fas fa-circle me-2" style="animation: blink 1s infinite;"></i>LIVE RESULTS
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg main-nav">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register"><i class="fas fa-user-plus me-2"></i>Voter Registration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/candidates"><i class="fas fa-users me-2"></i>Candidate Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/vote"><i class="fas fa-vote-yea me-2"></i>Vote Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/results"><i class="fas fa-chart-bar me-2"></i>Results</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about"><i class="fas fa-user me-2"></i>About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-12">
+                <div class="gov-card">
+                    <div class="card-header-gov">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h2 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Lok Sabha Election Results 2025</h2>
+                            <button class="btn btn-light btn-sm" onclick="location.reload()">
+                                <i class="fas fa-sync-alt me-2"></i>Refresh Results
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            <strong>Live Results:</strong> Results are updated in real-time as votes are counted. Last updated: <span id="lastUpdated"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Election Statistics -->
+        <div class="row mt-4">
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number text-primary" id="totalVotes">0</div>
+                    <div class="stat-label">Total Votes Cast</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number text-success" th:text="${candidates.size()}">6</div>
+                    <div class="stat-label">Total Candidates</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number text-info" id="maxVotes">0</div>
+                    <div class="stat-label">Highest Votes</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card">
+                    <div class="stat-number text-warning" id="leadingMargin">0.0%</div>
+                    <div class="stat-label">Leading Margin</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Table -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="gov-card">
+                    <div class="card-header-gov">
+                        <h4 class="mb-0"><i class="fas fa-trophy me-2"></i>Candidate-wise Results</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-gov mb-0">
+                                <thead>
+                                    <tr>
+                                        <th width="10%">Position</th>
+                                        <th width="5%">Symbol</th>
+                                        <th width="30%">Candidate Name</th>
+                                        <th width="25%">Political Party</th>
+                                        <th width="15%">Votes</th>
+                                        <th width="15%">Vote %</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="candidate, iterStat : ${candidates}">
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="candidate-number me-2" th:text="${iterStat.index}"></div>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="party-symbol" th:switch="${candidate.party}">
+                                                <span th:case="'🪷 BJP'">🪷</span>
+                                                <span th:case="'✋ INC'">✋</span>
+                                                <span th:case="'🌱 TMC'">🌱</span>
+                                                <span th:case="'🧹 AAP'">🧹</span>
+                                                <span th:case="'🚲 SP'">🚲</span>
+                                                <span th:case="'🐘 BSP'">🐘</span>
+                                                <span th:case="*">🏛️</span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <strong th:text="${candidate.name}"></strong>
+                                        </td>
+                                        <td th:text="${candidate.party}"></td>
+                                        <td>
+                                            <strong class="text-primary" th:text="${candidate.votes}">0</strong>
+                                        </td>
+                                        <td>
+                                            <strong class="vote-percentage" th:data-votes="${candidate.votes}">0.0</strong>%
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auto Refresh Notice -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="gov-card">
+                    <div class="card-body text-center">
+                        <h5 class="text-primary mb-3">
+                            <i class="fas fa-sync-alt me-2"></i>Live Updates
+                        </h5>
+                        <p class="mb-3">Results are automatically updated every 30 seconds for real-time accuracy</p>
+                        <div class="d-flex justify-content-center gap-3">
+                            <button class="btn btn-gov-primary" onclick="location.reload()">
+                                <i class="fas fa-refresh me-2"></i>Refresh Now
+                            </button>
+                            <a href="/vote" class="btn btn-gov-success">
+                                <i class="fas fa-vote-yea me-2"></i>Cast Your Vote
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gov-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Results & Data</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#live">Live Results</a></li>
+                            <li><a href="#analysis">Result Analysis</a></li>
+                            <li><a href="#trends">Voting Trends</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Transparency</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#audit">Audit Reports</a></li>
+                            <li><a href="#verification">Vote Verification</a></li>
+                            <li><a href="#methodology">Counting Method</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Contact Information</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-phone me-2"></i>Helpline: 1950</li>
+                            <li><i class="fas fa-envelope me-2"></i>info@eci.gov.in</li>
+                            <li><i class="fas fa-globe me-2"></i>www.eci.gov.in</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="mb-0 text-center">&copy; 2025 Election Commission of India. All rights reserved. | Developed by <a href="/about" class="text-decoration-none" style="color: var(--saffron);">Nishiraj Singh Panwar</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Calculate and update statistics
+        function updateStatistics() {
+            const voteElements = document.querySelectorAll('[data-votes]');
+            let totalVotes = 0;
+            let maxVotes = 0;
+            
+            // Calculate totals
+            voteElements.forEach(element => {
+                const votes = parseInt(element.getAttribute('data-votes')) || 0;
+                totalVotes += votes;
+                if (votes > maxVotes) maxVotes = votes;
+            });
+            
+            // Update statistics
+            document.getElementById('totalVotes').textContent = totalVotes;
+            document.getElementById('maxVotes').textContent = maxVotes;
+            
+            // Calculate percentages
+            voteElements.forEach(element => {
+                const votes = parseInt(element.getAttribute('data-votes')) || 0;
+                const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(1) : '0.0';
+                element.textContent = percentage;
+            });
+            
+            // Update leading margin
+            const leadingMargin = totalVotes > 0 ? ((maxVotes / totalVotes) * 100).toFixed(1) : '0.0';
+            document.getElementById('leadingMargin').textContent = leadingMargin + '%';
+        }
+        
+        // Update last updated time
+        document.getElementById('lastUpdated').textContent = new Date().toLocaleString('en-IN');
+        
+        // Calculate statistics on page load
+        updateStatistics();
+        
+        // Add blinking animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes blink {
+                0%, 50% { opacity: 1; }
+                51%, 100% { opacity: 0.3; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Auto-refresh every 30 seconds
+        setInterval(function() {
+            location.reload();
+        }, 30000);
+    </script>
+</body>
+</html>

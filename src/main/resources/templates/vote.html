@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cast Your Vote - Modern Voting System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Government Header -->
+    <div class="gov-header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col text-center">
+                    <small class="text-dark fw-bold">भारत सरकार | Government of India</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logo Section -->
+    <div class="gov-logo-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-1">
+                    <div class="emblem"></div>
+                </div>
+                <div class="col-md-11">
+                    <h1 class="site-title">Modern Voting System</h1>
+                    <p class="site-subtitle">Electronic Voting Portal | Election Commission of India</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg main-nav">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="fas fa-home me-2"></i>Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/register"><i class="fas fa-user-plus me-2"></i>Voter Registration</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/candidates"><i class="fas fa-users me-2"></i>Candidate Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/vote"><i class="fas fa-vote-yea me-2"></i>Vote Now</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/results"><i class="fas fa-chart-bar me-2"></i>Results</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about"><i class="fas fa-user me-2"></i>About</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb-gov">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item active">Cast Vote</li>
+            </ol>
+        </nav>
+
+        <!-- Page Header -->
+        <div class="row">
+            <div class="col-12">
+                <div class="gov-card">
+                    <div class="card-header-gov">
+                        <h2 class="mb-0"><i class="fas fa-vote-yea me-2"></i>Electronic Voting Machine (EVM)</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <strong>Important:</strong> You can vote only once. Please review your choice carefully before submitting.
+                        </div>
+
+                        <!-- Success/Error Messages -->
+                        <div th:if="${message}" 
+                             th:class="${message.contains('successfully') ? 'alert-gov-success' : 'alert-gov-error'}" 
+                             th:text="${message}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Voting Form -->
+        <form method="post" id="votingForm">
+            <div class="row mt-4">
+                <!-- Voter Authentication -->
+                <div class="col-md-4">
+                    <div class="gov-card h-100">
+                        <div class="card-header-gov">
+                            <h4 class="mb-0"><i class="fas fa-id-card me-2"></i>Voter Authentication</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="voterId" class="form-label-gov">
+                                    <i class="fas fa-user me-2"></i>Voter ID *
+                                </label>
+                                <input type="text" class="form-control form-control-gov" id="voterId" name="voterId" 
+                                       placeholder="Enter your Voter ID (e.g., NGF101)" required>
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle text-primary me-1"></i>
+                                    Use the Voter ID received after registration
+                                </div>
+                            </div>
+                            
+                            <div class="gov-card mt-3">
+                                <div class="card-body bg-light">
+                                    <h6 class="text-primary mb-2">
+                                        <i class="fas fa-shield-alt me-2"></i>Security Features
+                                    </h6>
+                                    <ul class="list-unstyled mb-0 small">
+                                        <li><i class="fas fa-check text-success me-2"></i>Encrypted transmission</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Duplicate vote prevention</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Anonymous voting</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Audit trail maintained</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ballot Paper -->
+                <div class="col-md-8">
+                    <div class="gov-card">
+                        <div class="card-header-gov">
+                            <h4 class="mb-0"><i class="fas fa-ballot me-2"></i>Official Ballot Paper - Lok Sabha 2025</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info">
+                                <i class="fas fa-hand-pointer me-2"></i>
+                                Click on the candidate card to select your choice, then click "Cast Vote" button.
+                            </div>
+
+                            <div class="row g-3" id="candidatesList">
+                                <div th:each="candidate, iterStat : ${candidates}" class="col-12">
+                                    <div class="candidate-card" th:onclick="'selectCandidate(this, ' + ${iterStat.index} + ')'" 
+                                         th:data-index="${iterStat.index}" th:data-name="${candidate.name}" th:data-party="${candidate.party}">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-1 text-center">
+                                                <div class="candidate-number" th:text="${iterStat.index}"></div>
+                                            </div>
+                                            <div class="col-md-1 text-center">
+                                                <span class="party-symbol" th:switch="${candidate.party}">
+                                                    <span th:case="'🪷 BJP'">🪷</span>
+                                                    <span th:case="'✋ INC'">✋</span>
+                                                    <span th:case="'🌱 TMC'">🌱</span>
+                                                    <span th:case="'🧹 AAP'">🧹</span>
+                                                    <span th:case="'🚲 SP'">🚲</span>
+                                                    <span th:case="'🐘 BSP'">🐘</span>
+                                                    <span th:case="*">🏛️</span>
+                                                </span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <h5 class="mb-1" th:text="${candidate.name}"></h5>
+                                                <p class="text-muted mb-0" th:text="${candidate.party}"></p>
+                                            </div>
+                                            <div class="col-md-2 text-center">
+                                                <div class="vote-button">
+                                                    <i class="fas fa-circle-check"></i>
+                                                    <div class="small">Vote</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input type="hidden" id="candidateIndex" name="candidateIndex" required>
+                            
+                            <!-- Submit Button -->
+                            <div class="text-center mt-4 pt-4 border-top">
+                                <h5 class="text-primary mb-3">Confirm Your Vote</h5>
+                                <p class="text-muted mb-4">Please review your selection before casting your vote. This action cannot be undone.</p>
+                                <button type="submit" class="btn btn-gov-success btn-lg" id="submitVote" disabled>
+                                    <i class="fas fa-vote-yea me-2"></i>Cast Your Vote
+                                </button>
+                                <div class="mt-3">
+                                    <small class="text-muted">
+                                        <i class="fas fa-lock me-1"></i>
+                                        Your vote is encrypted and secure
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Voting Guidelines -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="gov-card">
+                        <div class="card-header-gov">
+                            <h4 class="mb-0"><i class="fas fa-gavel me-2"></i>Voting Guidelines</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6 class="text-primary">Voting Rules:</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Each voter can cast only one vote</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Valid Voter ID is mandatory</li>
+                                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Vote is secret and secure</li>
+                                        <li class="mb-0"><i class="fas fa-check text-success me-2"></i>No duplicate voting allowed</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="text-primary">Technical Support:</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-phone text-info me-2"></i>Helpline: 1950</li>
+                                        <li class="mb-2"><i class="fas fa-envelope text-info me-2"></i>support@eci.gov.in</li>
+                                        <li class="mb-2"><i class="fas fa-clock text-info me-2"></i>24x7 Support Available</li>
+                                        <li class="mb-0"><i class="fas fa-headset text-info me-2"></i>Live Chat Support</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Your Vote</h5>
+                </div>
+                <div class="modal-body text-center">
+                    <h5>Are you sure you want to vote for:</h5>
+                    <div class="my-4 p-3 bg-light rounded">
+                        <h4 id="selectedCandidateName" class="text-primary"></h4>
+                        <p class="text-muted mb-0" id="selectedCandidateParty"></p>
+                    </div>
+                    <p class="text-danger"><strong>This action cannot be undone!</strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-gov-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-gov-success" id="confirmVote">
+                        <i class="fas fa-check me-2"></i>Confirm Vote
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="gov-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Voting Help</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#guide">Voting Guide</a></li>
+                            <li><a href="#faq">Voting FAQ</a></li>
+                            <li><a href="#support">Technical Support</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Security</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#security">Security Features</a></li>
+                            <li><a href="#privacy">Privacy Policy</a></li>
+                            <li><a href="#audit">Audit Trail</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="footer-section">
+                        <h5>Contact Information</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-phone me-2"></i>Helpline: 1950</li>
+                            <li><i class="fas fa-envelope me-2"></i>info@eci.gov.in</li>
+                            <li><i class="fas fa-globe me-2"></i>www.eci.gov.in</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p class="mb-0 text-center">&copy; 2025 Election Commission of India. All rights reserved. | Developed by <a href="/about" class="text-decoration-none" style="color: var(--saffron);">Nishiraj Singh Panwar</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let selectedCandidateIndex = null;
+        let selectedCandidateName = '';
+        let selectedCandidateParty = '';
+
+        function selectCandidate(element, index) {
+            // Remove selection from all candidates
+            document.querySelectorAll('.candidate-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            
+            // Select current candidate
+            element.classList.add('selected');
+            
+            // Store selection
+            selectedCandidateIndex = index;
+            selectedCandidateName = element.getAttribute('data-name');
+            selectedCandidateParty = element.getAttribute('data-party');
+            
+            // Set hidden input
+            document.getElementById('candidateIndex').value = index;
+            
+            // Enable submit button
+            document.getElementById('submitVote').disabled = false;
+        }
+
+        // Form submission with confirmation
+        document.getElementById('votingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const voterId = document.getElementById('voterId').value.trim();
+            
+            if (!voterId) {
+                alert('Please enter your Voter ID');
+                return;
+            }
+            
+            if (selectedCandidateIndex === null) {
+                alert('Please select a candidate');
+                return;
+            }
+            
+            // Show confirmation modal
+            document.getElementById('selectedCandidateName').textContent = selectedCandidateName;
+            document.getElementById('selectedCandidateParty').textContent = selectedCandidateParty;
+            
+            new bootstrap.Modal(document.getElementById('confirmModal')).show();
+        });
+
+        // Confirm vote
+        document.getElementById('confirmVote').addEventListener('click', function() {
+            const form = document.getElementById('votingForm');
+            const btn = document.getElementById('submitVote');
+            
+            btn.innerHTML = '<span class="spinner me-2"></span>Casting Vote...';
+            btn.disabled = true;
+            
+            // Close modal and submit form
+            bootstrap.Modal.getInstance(document.getElementById('confirmModal')).hide();
+            form.submit();
+        });
+
+        // Voter ID formatting
+        document.getElementById('voterId').addEventListener('input', function(e) {
+            e.target.value = e.target.value.toUpperCase();
+        });
+    </script>
+</body>
+</html>
